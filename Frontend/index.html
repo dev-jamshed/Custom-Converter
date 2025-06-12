@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YouTube to MP3 Converter</title>
+  <style>
+    body {
+      background-color: #f4f4f4;
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .converter {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      color: white;
+      background-color: #d62828;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #a4161a;
+    }
+
+    .message {
+      margin-top: 15px;
+      font-size: 14px;
+      color: green;
+    }
+
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="converter">
+    <h2>YouTube to MP3 Converter</h2>
+    <input type="text" id="youtubeUrl" placeholder="Paste YouTube video URL" />
+    <button onclick="convert()">Convert</button>
+    <div id="message" class="message"></div>
+  </div>
+
+  <script>
+    function convert() {
+      const urlInput = document.getElementById("youtubeUrl");
+      const messageDiv = document.getElementById("message");
+      const youtubeUrl = urlInput.value.trim();
+
+      if (!youtubeUrl) {
+        messageDiv.textContent = "Please enter a valid YouTube URL.";
+        messageDiv.classList.add("error");
+        return;
+      }
+
+      messageDiv.textContent = "Conversion started. Please wait...";
+      messageDiv.classList.remove("error");
+
+      // Open the Node.js API endpoint in a new tab (starts the MP3 download)
+      const apiUrl = `http://localhost:4000/convert?url=${encodeURIComponent(youtubeUrl)}`;
+      window.open(apiUrl, '_blank');
+
+      // Clear input
+      urlInput.value = '';
+    }
+  </script>
+
+</body>
+</html>

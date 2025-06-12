@@ -1,0 +1,31 @@
+<div class="converter">
+  <h2>YouTube Converter</h2>
+  <input type="text" id="youtubeUrl" placeholder="Paste YouTube video URL" />
+  <button onclick="convert('mp3')">Download MP3</button>
+  <button onclick="convert('mp4')">Download MP4</button>
+  <div id="message" class="message"></div>
+</div>
+
+<script>
+  function convert(format) {
+    const urlInput = document.getElementById("youtubeUrl");
+    const messageDiv = document.getElementById("message");
+    const youtubeUrl = urlInput.value.trim();
+
+    if (!youtubeUrl) {
+      messageDiv.textContent = "Please enter a valid YouTube URL.";
+      messageDiv.classList.add("error");
+      return;
+    }
+
+    messageDiv.textContent = `Downloading ${format.toUpperCase()}... Please wait.`;
+    messageDiv.classList.remove("error");
+
+    const apiUrl = format === 'mp3'
+      ? `http://localhost:4000/convert?url=${encodeURIComponent(youtubeUrl)}`
+      : `http://localhost:4000/download?url=${encodeURIComponent(youtubeUrl)}`;
+
+    window.open(apiUrl, '_blank');
+    urlInput.value = '';
+  }
+</script>
